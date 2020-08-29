@@ -4,6 +4,8 @@ import './App.css';
 import Questions from './containers/Questions/Questions'
 import Start from './containers/Start/Start'
 
+import {Switch, Route} from 'react-router-dom'
+
 
 function App() {
 
@@ -13,8 +15,10 @@ function App() {
   return (
     <div className="App">
       <h1>Kristoffers jätteroliga quiz</h1>
-      <Start setGameDetails={setGameDetails}></Start>
-      <Questions></Questions>
+      <Switch>
+      <Route exact path="/" component={Start}></Route>
+      <Route path="/quiz" component={Questions}></Route>
+      </Switch>
     </div>
   );
 }
