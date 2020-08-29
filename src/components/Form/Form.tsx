@@ -9,21 +9,24 @@ import { RadioGroup } from "@material-ui/core";
 import { Radio } from "@material-ui/core";
 import { Button } from '@material-ui/core';
 
+import {useHistory} from 'react-router-dom'
+
+import {fetchQuiz} from '../../store/actions/quizActions'
+import {connect} from 'react-redux'
+
 interface FormProps {
-  setGameDetails: Function
+  setGameDetails: Function,
+  fetchQuiz: Function
 }
 
-const Form: FunctionComponent<FormProps> = ({setGameDetails}) => {
+const Form: FunctionComponent<FormProps> = ({setGameDetails, fetchQuiz}) => {
   const [questions, setQuestions] = useState<number>(10);
   const [diffValue, setDiffValue] = useState("Mellan");
 
-
+  const history = useHistory()
   const handleClick = () => {
-      const gameDetails = {
-          questions,
-          diffValue
-      }
-      setGameDetails(gameDetails)
+      fetchQuiz(questions, diffValue)
+      history.push("/quiz")
   }
 
   return (
@@ -48,4 +51,10 @@ const Form: FunctionComponent<FormProps> = ({setGameDetails}) => {
   );
 };
 
-export default Form;
+const mapDispatchToProps = (dispatch: any) => ({
+  fetchQuiz: (questions:number, diffValue:string) => dispatch(fetchQuiz(questions, diffValue))
+})
+
+
+
+export default connect(null, mapDispatchToProps)(Form);

@@ -1,27 +1,33 @@
 import React, {FunctionComponent, useEffect, useState} from 'react';
-import {http} from '../../fetch'
 import Question from '../../components/Question/Question'
 
+import {connect} from 'react-redux'
 
-interface QuestionModel {
+
+export interface QuestionModel {
     category: string,
     question: string;
   correctAnswer: string;
   incorrectAnswers: string[];
 }
 
-const Questions: FunctionComponent = () => {
+interface QuestionsProps {
+    questions: QuestionModel[]
+}
 
-    const [questions, setQuestions] = useState<QuestionModel[]>([])
-    const [questionIndex, setQuestionIndex] = useState(0)
+const Questions: FunctionComponent<QuestionsProps> = ({questions}) => {
+
+    // const [questions, setQuestions] = useState<QuestionModel[]>([])
+    const [questionIndex, setQuestionIndex] = useState(questions?.length || 0)
 
     useEffect(() => {
-        http<QuestionModel[]>()
-        .then(data => setQuestions(data.results))
+        // http<QuestionModel[]>()
+        // .then(data => setQuestions(data.results))
     }, [])
 
+
     let toShow = <p>Laddar frågor...</p>
-    if(questions.length > 0){
+    if(questions && questions.length > 0){
         const nextQuestion = questions[questionIndex]
         console.log(nextQuestion)
         toShow = <Question category={nextQuestion.category}
@@ -38,4 +44,10 @@ const Questions: FunctionComponent = () => {
     )
 }
 
-export default Questions
+
+
+const mapStateToProps = (state: any) => ({
+    questions: state.currentQuiz
+})
+
+export default connect(mapStateToProps)(Questions)

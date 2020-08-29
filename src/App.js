@@ -9,7 +9,6 @@ import {Switch, Route} from 'react-router-dom'
 
 function App() {
 
-  const [gameDetails, setGameDetails] = useState({})
 
 
   return (
