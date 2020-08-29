@@ -1,7 +1,7 @@
 import Actions, {ActionModel} from '../actions/actionTypes'
 
 const initialState = {
-    currentQuiz:null,
+    currentQuiz:[],
     loading: false
 }
 
