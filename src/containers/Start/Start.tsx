@@ -2,14 +2,13 @@ import React, {FunctionComponent} from 'react';
 import Form from '../../components/Form/Form'
 
 interface StartProps {
-    setGameDetails: Function
 }
 
-const Start: FunctionComponent<StartProps> = ({setGameDetails}) => {
+const Start: FunctionComponent<StartProps> = () => {
 
 
     return <div>
-        <Form setGameDetails={setGameDetails}></Form>
+        <Form></Form>
     </div>
 }
 

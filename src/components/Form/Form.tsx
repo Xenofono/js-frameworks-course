@@ -13,19 +13,20 @@ import {useHistory} from 'react-router-dom'
 
 import {fetchQuiz} from '../../store/actions/quizActions'
 import {connect} from 'react-redux'
+import {GameDetailsModel} from '../../fetch'
 
 interface FormProps {
-  setGameDetails: Function,
   fetchQuiz: Function
 }
 
-const Form: FunctionComponent<FormProps> = ({setGameDetails, fetchQuiz}) => {
+const Form: FunctionComponent<FormProps> = ({fetchQuiz}) => {
   const [questions, setQuestions] = useState<number>(10);
   const [diffValue, setDiffValue] = useState("Mellan");
 
   const history = useHistory()
   const handleClick = () => {
-      fetchQuiz(questions, diffValue)
+      const gameDetails = new GameDetailsModel(questions, diffValue)
+      fetchQuiz(gameDetails)
       history.push("/quiz")
   }
 
@@ -52,7 +53,7 @@ const Form: FunctionComponent<FormProps> = ({setGameDetails, fetchQuiz}) => {
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
-  fetchQuiz: (questions:number, diffValue:string) => dispatch(fetchQuiz(questions, diffValue))
+  fetchQuiz: (gameDetails: GameDetailsModel) => dispatch(fetchQuiz(gameDetails))
 })
 
 

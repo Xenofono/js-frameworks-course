@@ -17,9 +17,8 @@ export const fetchQuizDone = (quizArray:QuestionModel[]) => ({
     payload: quizArray
 })
 
-export const fetchQuiz = (questions:number, difficulty: string) => {
+export const fetchQuiz = (gameDetails: GameDetailsModel) => {
     return (dispatch:any) => {
-        const gameDetails = new GameDetailsModel(questions, difficulty)
         dispatch(fetchQuizStart())
 
         quizFetch<QuestionModel[]>(gameDetails)
