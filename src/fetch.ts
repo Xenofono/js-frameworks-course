@@ -1,17 +1,11 @@
+import GameDetailsModel from './models/GameDetailsModel'
 
-const URL = "https://opentdb.com/api.php?amount=10&difficulty=medium"
+const BASE_URL = `https://opentdb.com/api.php?amount=`;
 
-export class GameDetailsModel {
-    questions: number;
-    difficulty:string;
-    constructor(questions: number, difficulty: string){
-        this.questions = questions;
-        this.difficulty = difficulty;
-    }
-}
 
-export default async function http<T>(details: GameDetailsModel):Promise<any> {
-    const response = await fetch(URL);
-    const body = await response.json();
-    return body;
+export default async function http<T>(details: GameDetailsModel): Promise<any> {
+  const query = `${BASE_URL}${details.questions}&difficulty=${details.difficulty}`;
+  const response = await fetch(query);
+  const body = await response.json();
+  return body;
 }

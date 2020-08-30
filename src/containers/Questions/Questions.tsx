@@ -2,6 +2,7 @@ import React, {FunctionComponent, useEffect, useState} from 'react';
 import Question from '../../components/Question/Question'
 
 import {connect} from 'react-redux'
+import {Redirect, useHistory} from 'react-router-dom'
 
 
 export interface QuestionModel {
@@ -12,30 +13,29 @@ export interface QuestionModel {
 }
 
 interface QuestionsProps {
-    questions: QuestionModel[]
+    questions: QuestionModel[],
+    loading: boolean
 }
 
-const Questions: FunctionComponent<QuestionsProps> = ({questions}) => {
+const Questions: FunctionComponent<QuestionsProps> = ({questions, loading}) => {
+    const [questionIndex, setQuestionIndex] = useState(0)
 
-    // const [questions, setQuestions] = useState<QuestionModel[]>([])
-    const [questionIndex, setQuestionIndex] = useState(questions?.length || 0)
-
-    useEffect(() => {
-        // http<QuestionModel[]>()
-        // .then(data => setQuestions(data.results))
-    }, [])
-
+    const history = useHistory()
+    if(!loading && !questions){
+        history.replace("/")
+    }
 
     let toShow = <p>Laddar frågor...</p>
-    if(questions && questions.length > 0){
+    if(!loading && questions){
         const nextQuestion = questions[questionIndex]
-        console.log(nextQuestion)
         toShow = <Question category={nextQuestion.category}
         question={nextQuestion.question}
         correctAnswer={nextQuestion.correctAnswer}
         incorrectAnswers={nextQuestion.incorrectAnswers}></Question>
 
     }
+
+    
 
     return (
         <div>
@@ -47,7 +47,8 @@ const Questions: FunctionComponent<QuestionsProps> = ({questions}) => {
 
 
 const mapStateToProps = (state: any) => ({
-    questions: state.currentQuiz
+    questions: state.currentQuiz,
+    loading: state.loading
 })
 
 export default connect(mapStateToProps)(Questions)

@@ -1,22 +1,31 @@
-import Actions, {ActionModel} from '../actions/actionTypes'
+import Actions, { ActionModel } from "../actions/actionTypes";
 
 const initialState = {
-    currentQuiz:[],
-    loading: false
-}
+  currentQuiz: null,
+  loading: false,
+};
 
 const reducer = (state = initialState, action: ActionModel) => {
-    console.log(state)
-    switch(action.type){
-        case Actions.QUIZ_FETCH_DONE :
-            
-            return {
-                ...state,
-                currentQuiz: action.payload
-            }
-
-        default: return state
-    }
-}
+  switch (action.type) {
+    case Actions.QUIZ_FETCH_DONE:
+      return {
+        ...state,
+        currentQuiz: action.payload,
+        loading: false
+      };
+    case Actions.QUIZ_FETCH_START:
+      return {
+        ...state,
+        loading: true,
+      };
+      case Actions.QUIZ_FETCH_ERROR:
+        return {
+          ...state,
+          loading: false,
+        };
+    default:
+      return state;
+  }
+};
 
 export default reducer;

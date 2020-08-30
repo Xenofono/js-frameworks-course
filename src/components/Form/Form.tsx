@@ -13,7 +13,8 @@ import {useHistory} from 'react-router-dom'
 
 import {fetchQuiz} from '../../store/actions/quizActions'
 import {connect} from 'react-redux'
-import {GameDetailsModel} from '../../fetch'
+import GameDetailsModel from '../../models/GameDetailsModel'
+
 
 interface FormProps {
   fetchQuiz: Function
@@ -43,9 +44,9 @@ const Form: FunctionComponent<FormProps> = ({fetchQuiz}) => {
         onChange={(e) => setQuestions(+e.target.value)}></Input>
         <FormLabel htmlFor="radio">Svårighetsgrad</FormLabel>
       <RadioGroup id="radio" aria-label="difficulty" name="difficulty" value={diffValue} onChange={e => setDiffValue(e.target.value)}>
-        <FormControlLabel value="Lätt" control={<Radio />} label="Lätt" />
-        <FormControlLabel value="Mellan" control={<Radio />} label="Mellan" />
-        <FormControlLabel value="Svårt" control={<Radio />} label="Svårt" />
+        <FormControlLabel value="easy" control={<Radio />} label="Lätt" />
+        <FormControlLabel value="medium" control={<Radio />} label="Mellan" />
+        <FormControlLabel value="hard" control={<Radio />} label="Svårt" />
       </RadioGroup>
       <Button size="large" variant="outlined" onClick={handleClick}>Börja</Button>
     </FormControl>

@@ -1,6 +1,8 @@
 import Actions, {ActionModel} from './actionTypes'
 import {QuestionModel} from '../../containers/Questions/Questions'
-import quizFetch, { GameDetailsModel } from '../../fetch'
+import quizFetch from '../../fetch'
+import GameDetailsModel from '../../models/GameDetailsModel'
+
 
 
 export const fetchQuizStart = () => ({
@@ -23,7 +25,14 @@ export const fetchQuiz = (gameDetails: GameDetailsModel) => {
 
         quizFetch<QuestionModel[]>(gameDetails)
         .then(data => {
-            dispatch(fetchQuizDone(data.results))
+            const results = data.results
+            //change &quot; for " and &#039 for '
+            results.forEach((question:QuestionModel) => {
+                question.question = question.question.replace(/&quot;/g, "\"")
+                .replace(/&#039;/g, "'")
+                
+            })
+            dispatch(fetchQuizDone(results))
         })
         .catch(err => dispatch(fetchQuizError(err)))
     }
