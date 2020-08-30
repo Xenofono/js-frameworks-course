@@ -2,7 +2,9 @@ import React, {FunctionComponent, useEffect, useState} from 'react';
 import Question from '../../components/Question/Question'
 
 import {connect} from 'react-redux'
-import {Redirect, useHistory} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
+
+import { CircularProgress } from '@material-ui/core';
 
 
 export interface QuestionModel {
@@ -25,7 +27,7 @@ const Questions: FunctionComponent<QuestionsProps> = ({questions, loading}) => {
         history.replace("/")
     }
 
-    let toShow = <p>Laddar frågor...</p>
+    let toShow = <CircularProgress></CircularProgress>
     if(!loading && questions){
         const nextQuestion = questions[questionIndex]
         toShow = <Question category={nextQuestion.category}

@@ -1,22 +1,26 @@
 import React, { useState } from "react";
 import logo from "./logo.svg";
-import "./App.css";
+import css from "./App.module.css";
 import Questions from "./containers/Questions/Questions";
 import Start from "./containers/Start/Start";
 
 import { Switch, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { Typography } from '@material-ui/core';
 
 function App(props) {
 
 
   return (
-    <div className="App">
-      <h1>Kristoffers jätteroliga quiz</h1>
+    <div className={css.App}>
+      <div className={css.AppHeader}>
+      <Typography variant="h3">Kristoffers jätteroliga quiz</Typography>
       <Switch>
       <Route exact path="/" component={Start}></Route>
       <Route  path="/quiz" component={Questions}></Route>
       </Switch>
+      </div>
+
     </div>
   );
 }

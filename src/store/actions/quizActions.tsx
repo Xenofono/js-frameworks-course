@@ -26,10 +26,11 @@ export const fetchQuiz = (gameDetails: GameDetailsModel) => {
         quizFetch<QuestionModel[]>(gameDetails)
         .then(data => {
             const results = data.results
-            //change &quot; for " and &#039 for '
+            //change &quot; for ", &#039 for ', &pi; for pi
             results.forEach((question:QuestionModel) => {
                 question.question = question.question.replace(/&quot;/g, "\"")
                 .replace(/&#039;/g, "'")
+                .replace(/&pi;/g, "pi")
                 
             })
             dispatch(fetchQuizDone(results))
