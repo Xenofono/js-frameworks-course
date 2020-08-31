@@ -22,7 +22,7 @@ interface FormProps {
 
 const Form: FunctionComponent<FormProps> = ({fetchQuiz}) => {
   const [questions, setQuestions] = useState<number>(10);
-  const [diffValue, setDiffValue] = useState("Mellan");
+  const [diffValue, setDiffValue] = useState("medium");
 
   const history = useHistory()
   const handleClick = () => {
@@ -32,8 +32,8 @@ const Form: FunctionComponent<FormProps> = ({fetchQuiz}) => {
   }
 
   return (
-    <FormControl>
-      <FormLabel htmlFor="input">Antal Frågor: </FormLabel>
+    <FormControl margin="normal" variant="outlined">
+      <FormLabel htmlFor="input" >Antal Frågor: </FormLabel>
       <Input
         id="input"
         type="number"
@@ -48,7 +48,7 @@ const Form: FunctionComponent<FormProps> = ({fetchQuiz}) => {
         <FormControlLabel value="medium" control={<Radio />} label="Mellan" />
         <FormControlLabel value="hard" control={<Radio />} label="Svårt" />
       </RadioGroup>
-      <Button size="large" variant="outlined" onClick={handleClick}>Börja</Button>
+      <Button size="large" variant="contained" color="primary" onClick={handleClick}>Börja</Button>
     </FormControl>
   );
 };

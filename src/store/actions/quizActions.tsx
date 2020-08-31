@@ -1,7 +1,7 @@
 import Actions, {ActionModel} from './actionTypes'
-import {QuestionModel} from '../../containers/Questions/Questions'
 import quizFetch from '../../fetch'
 import GameDetailsModel from '../../models/GameDetailsModel'
+import RawQuestionModel from '../../models/RawQuestionModel'
 
 
 
@@ -14,7 +14,7 @@ export const fetchQuizError = (error: Error): ActionModel => ({
     payload: error
 })
 
-export const fetchQuizDone = (quizArray:QuestionModel[]) => ({
+export const fetchQuizDone = (quizArray:RawQuestionModel[]) => ({
     type: Actions.QUIZ_FETCH_DONE,
     payload: quizArray
 })
@@ -23,13 +23,13 @@ export const fetchQuiz = (gameDetails: GameDetailsModel) => {
     return (dispatch:any) => {
         dispatch(fetchQuizStart())
 
-        quizFetch<QuestionModel[]>(gameDetails)
+    quizFetch<RawQuestionModel[]>(gameDetails)
         .then(data => {
             const results = data.results
             //change &quot; for ", &#039 for ', &pi; for pi
-            results.forEach((question:QuestionModel) => {
+            results.forEach((question:RawQuestionModel) => {
                 question.question = question.question.replace(/&quot;/g, "\"")
-                .replace(/&#039;/g, "'")
+                .replace(/&#039;/g||/&rsquo;/g, "'")
                 .replace(/&pi;/g, "pi")
                 
             })
@@ -38,4 +38,6 @@ export const fetchQuiz = (gameDetails: GameDetailsModel) => {
         .catch(err => dispatch(fetchQuizError(err)))
     }
 }
+
+
 
