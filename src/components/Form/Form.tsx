@@ -20,7 +20,7 @@ interface FormProps {
 }
 
 const Form: FunctionComponent<FormProps> = ({ fetchQuiz }) => {
-  const [questions, setQuestions] = useState<number>(10);
+  const [questions, setQuestions] = useState<number>(8);
   const [diffValue, setDiffValue] = useState("medium");
 
   const history = useHistory();
@@ -36,8 +36,8 @@ const Form: FunctionComponent<FormProps> = ({ fetchQuiz }) => {
       <Input
         id="input"
         type="number"
-        placeholder="10"
-        value={questions}
+        placeholder="8"
+        value={questions === 0 ? "" : questions}
         required
         autoFocus
         onChange={(e) => setQuestions(+e.target.value)}></Input>

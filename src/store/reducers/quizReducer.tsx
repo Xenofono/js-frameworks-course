@@ -15,7 +15,8 @@ const formatQuestions = (questions: RawQuestionModel[]): QuestionModel[] => {
     question.question = question.question
       .replace(/&quot;/g, '"')
       .replace(/&#039;/g || /&rsquo;/g, "'")
-      .replace(/&pi;/g, "pi");
+      .replace(/&pi;/g, "pi")
+      .replace(/&amp;/g, "&");
   });
   return questions.map((rawQuestion: RawQuestionModel) => {
     return new QuestionModel(
