@@ -1,26 +1,29 @@
 import Actions, { ActionModel } from "../actions/actionTypes";
-import RawQuestionModel from '../../models/RawQuestionModel'
-import QuestionModel from '../../models/QuestionModel'
+import RawQuestionModel from "../../models/RawQuestionModel";
+import QuestionModel from "../../models/QuestionModel";
 
 const initialState = {
   currentQuiz: null,
   loading: false,
 };
 
+//convert api data to my own model
 const formatQuestions = (questions: RawQuestionModel[]): QuestionModel[] => {
-  questions.forEach((question:RawQuestionModel) => {
-    question.question = question.question.replace(/&quot;/g, "\"")
-    .replace(/&#039;/g||/&rsquo;/g, "'")
-    .replace(/&pi;/g, "pi")
-    
-})
-return questions.map((rawQuestion: RawQuestionModel) => {
-  return new QuestionModel(rawQuestion.category,
-     rawQuestion.question,
+  questions.forEach((question: RawQuestionModel) => {
+    question.question = question.question
+      .replace(/&quot;/g, '"')
+      .replace(/&#039;/g || /&rsquo;/g, "'")
+      .replace(/&pi;/g, "pi");
+  });
+  return questions.map((rawQuestion: RawQuestionModel) => {
+    return new QuestionModel(
+      rawQuestion.category,
+      rawQuestion.question,
       rawQuestion.correct_answer,
-       rawQuestion.incorrect_answers)
-})
-}
+      rawQuestion.incorrect_answers
+    );
+  });
+};
 
 const reducer = (state = initialState, action: ActionModel) => {
   switch (action.type) {
@@ -28,18 +31,18 @@ const reducer = (state = initialState, action: ActionModel) => {
       return {
         ...state,
         currentQuiz: formatQuestions(action.payload),
-        loading: false
+        loading: false,
       };
     case Actions.QUIZ_FETCH_START:
       return {
         ...state,
         loading: true,
       };
-      case Actions.QUIZ_FETCH_ERROR:
-        return {
-          ...state,
-          loading: false,
-        };
+    case Actions.QUIZ_FETCH_ERROR:
+      return {
+        ...state,
+        loading: false,
+      };
     default:
       return state;
   }

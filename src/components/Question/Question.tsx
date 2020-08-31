@@ -11,7 +11,6 @@ type QuestionProps = {
   correctAnswer: string;
 };
 
-
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -33,16 +32,12 @@ const Question: FunctionComponent<QuestionProps> = ({
   options,
   goToNextQuestion,
   clicked,
-  correctAnswer
+  correctAnswer,
 }) => {
   const classes = useStyles();
 
-
-
   const handleClick = (answer: String) => {
-
-      goToNextQuestion(answer);
-
+    goToNextQuestion(answer);
   };
 
   const answersList = options.map((answer) => {
@@ -52,7 +47,9 @@ const Question: FunctionComponent<QuestionProps> = ({
         onClick={(e: MouseEvent) => handleClick(answer)}
         divider
         selected={clicked}
-        className={answer === correctAnswer ? classes.correct : classes.incorrect}>
+        className={
+          answer === correctAnswer ? classes.correct : classes.incorrect
+        }>
         <ListItemText primary={answer} />
       </ListItem>
     );
