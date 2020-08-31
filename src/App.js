@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import css from "./App.module.css";
 import Questions from "./containers/Questions/Questions";
 import Start from "./containers/Start/Start";
+import Score from "./components/Score/Score";
 
 import { Switch, Route } from "react-router-dom";
 import { connect } from "react-redux";
@@ -49,6 +50,7 @@ function App(props) {
         <Switch>
           <Route exact path="/" component={Start}></Route>
           <Route path="/quiz" component={Questions}></Route>
+          <Route path="/score" component={Score}></Route>
         </Switch>
       </div>
     </div>
