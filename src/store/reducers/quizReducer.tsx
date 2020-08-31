@@ -5,6 +5,8 @@ import QuestionModel from "../../models/QuestionModel";
 const initialState = {
   currentQuiz: null,
   loading: false,
+  score: 0,
+  quizEnded: false
 };
 
 //convert api data to my own model
@@ -43,6 +45,18 @@ const reducer = (state = initialState, action: ActionModel) => {
         ...state,
         loading: false,
       };
+
+      case Actions.QUIZ_SCORE_INCREASE:
+        return {
+          ...state,
+          score: state.score+1
+        }
+
+        case Actions.QUIZ_ENDED:
+        return {
+          ...state,
+          quizEnded: true
+        }
     default:
       return state;
   }

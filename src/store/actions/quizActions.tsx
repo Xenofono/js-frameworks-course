@@ -3,16 +3,16 @@ import quizFetch from "../../fetch";
 import GameDetailsModel from "../../models/GameDetailsModel";
 import RawQuestionModel from "../../models/RawQuestionModel";
 
-export const fetchQuizStart = () => ({
+const fetchQuizStart = () => ({
   type: Actions.QUIZ_FETCH_START,
 });
 
-export const fetchQuizError = (error: Error): ActionModel => ({
+const fetchQuizError = (error: Error): ActionModel => ({
   type: Actions.QUIZ_FETCH_START,
   payload: error,
 });
 
-export const fetchQuizDone = (quizArray: RawQuestionModel[]) => ({
+const fetchQuizDone = (quizArray: RawQuestionModel[]) => ({
   type: Actions.QUIZ_FETCH_DONE,
   payload: quizArray,
 });
@@ -26,3 +26,11 @@ export const fetchQuiz = (gameDetails: GameDetailsModel) => {
       .catch((err) => dispatch(fetchQuizError(err)));
   };
 };
+
+export const increaseScore = () => ({
+    type: Actions.QUIZ_SCORE_INCREASE
+})
+
+export const quizEnded = () => ({
+    type: Actions.QUIZ_ENDED
+})
