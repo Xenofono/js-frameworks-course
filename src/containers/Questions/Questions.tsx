@@ -1,46 +1,47 @@
 import React, { FunctionComponent, useEffect, useState } from "react";
 import Question from "../../components/Question/Question";
-
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
-
 import { CircularProgress } from "@material-ui/core";
+import {increaseScore, quizEnded} from '../../store/actions/quizActions'
 
-import QuestionModel from '../../models/QuestionModel'
-
+import QuestionModel from "../../models/QuestionModel";
 
 interface QuestionsProps {
   questions: QuestionModel[];
   loading: boolean;
+  increaseScore: Function;
+  quizEnded: Function;
 }
-
 
 const Questions: FunctionComponent<QuestionsProps> = ({
   questions,
   loading,
+  increaseScore,
+  quizEnded
 }) => {
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [clicked, setClicked] = useState(true)
+  const [clicked, setClicked] = useState(true);
   const history = useHistory();
 
   const goToNextQuestion = (answer: string) => {
-    setClicked(false)
+    setClicked(false);
     const currentQuestion = questions[questionIndex];
     if (answer === currentQuestion.correctAnswer) {
-      console.log("rätt svar!");
-    } else {
-      console.log("fel!");
+      increaseScore()
     }
     setTimeout(() => {
-      const nextIndex = questionIndex+1;
-      if(nextIndex < questions.length){
-      setQuestionIndex(questionIndex + 1);
-  
+      const nextIndex = questionIndex + 1;
+      if (nextIndex < questions.length) {
+        setQuestionIndex(questionIndex + 1);
       }
-      setClicked(true)
-    },1500)
-
-  }
+      else{
+        quizEnded()
+        history.push("/score")
+      }
+      setClicked(true);
+    }, 1500);
+  };
 
   if (!loading && !questions) {
     history.replace("/");
@@ -49,7 +50,7 @@ const Questions: FunctionComponent<QuestionsProps> = ({
   let toShow = <CircularProgress></CircularProgress>;
   if (!loading && questions) {
     const nextQuestion = questions[questionIndex];
-    console.log("QUESTIONSSSS: ", nextQuestion)
+    console.log("QUESTIONSSSS: ", nextQuestion);
     toShow = (
       <Question
         category={nextQuestion.category}
@@ -57,17 +58,21 @@ const Questions: FunctionComponent<QuestionsProps> = ({
         options={nextQuestion.options}
         goToNextQuestion={goToNextQuestion}
         correctAnswer={nextQuestion.correctAnswer}
-        clicked={clicked}
-        ></Question>
+        clicked={clicked}></Question>
     );
   }
 
   return <div>{toShow}</div>;
 };
 
+const mapDispatchToProps = (dispatch: any) => ({
+ increaseScore: () => dispatch(increaseScore()),
+ quizEnded: () => dispatch(quizEnded())
+})
+
 const mapStateToProps = (state: any) => ({
   questions: state.currentQuiz,
   loading: state.loading,
 });
 
-export default connect(mapStateToProps)(Questions);
+export default connect(mapStateToProps, mapDispatchToProps)(Questions);
