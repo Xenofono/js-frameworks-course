@@ -3,7 +3,7 @@ import Question from "../../components/Question/Question";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { CircularProgress } from "@material-ui/core";
-import {increaseScore, quizEnded} from '../../store/actions/quizActions'
+import { increaseScore, quizEnded } from "../../store/actions/quizActions";
 
 import QuestionModel from "../../models/QuestionModel";
 
@@ -18,26 +18,26 @@ const Questions: FunctionComponent<QuestionsProps> = ({
   questions,
   loading,
   increaseScore,
-  quizEnded
+  quizEnded,
 }) => {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [clicked, setClicked] = useState(true);
   const history = useHistory();
 
+  //setTimeout is so correct and wrong answers are displayed 1500 ms before next question
   const goToNextQuestion = (answer: string) => {
     setClicked(false);
     const currentQuestion = questions[questionIndex];
     if (answer === currentQuestion.correctAnswer) {
-      increaseScore()
+      increaseScore();
     }
     setTimeout(() => {
       const nextIndex = questionIndex + 1;
       if (nextIndex < questions.length) {
         setQuestionIndex(questionIndex + 1);
-      }
-      else{
-        quizEnded()
-        history.push("/score")
+      } else {
+        quizEnded();
+        history.push("/score");
       }
       setClicked(true);
     }, 1500);
@@ -66,9 +66,9 @@ const Questions: FunctionComponent<QuestionsProps> = ({
 };
 
 const mapDispatchToProps = (dispatch: any) => ({
- increaseScore: () => dispatch(increaseScore()),
- quizEnded: () => dispatch(quizEnded())
-})
+  increaseScore: () => dispatch(increaseScore()),
+  quizEnded: () => dispatch(quizEnded()),
+});
 
 const mapStateToProps = (state: any) => ({
   questions: state.currentQuiz,
