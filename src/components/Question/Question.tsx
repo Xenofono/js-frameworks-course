@@ -1,7 +1,7 @@
 import React, { FunctionComponent, MouseEvent } from "react";
-import { List, ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import { Typography } from "@material-ui/core";
+import { List, ListItem, ListItemText, ListItemIcon, Container } from "@material-ui/core";
+import { createStyles, Theme, makeStyles, useTheme } from "@material-ui/core/styles";
+import { Typography, useMediaQuery } from "@material-ui/core";
 
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
@@ -17,7 +17,7 @@ type QuestionProps = {
   countDown: number;
 };
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStylesDesktop = makeStyles((theme: Theme) =>
   createStyles({
     root:{
       width:'90%',
@@ -25,6 +25,51 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     list:{
       width:'50%',
+      margin: 'auto'
+    }
+    ,
+    itemRoot: {
+      '&$disabled': {
+        opacity: 1
+      },
+      '&:hover' :{
+        backgroundColor : '#eee !important'
+      }
+    },
+    correct: {
+      backgroundColor: "#2ECC40",
+  
+    },
+    incorrect: {
+      backgroundColor: "#FF4136",
+  
+    },
+    listItemIconHidden:{
+      display: 'none'
+    },
+    listItemIconShow:{
+      display: 'block'
+    }
+    ,
+    iconCorrect:{
+      color: "#2ECC40"
+    },
+    iconIncorrect:{
+      color: "#FF4136"
+    },
+    disabled: {}
+    
+  })
+);
+
+const useStylesMobile = makeStyles((theme: Theme) =>
+  createStyles({
+    root:{
+      width:'90%',
+      margin: 'auto'
+    },
+    list:{
+      width:'100%',
       margin: 'auto'
     }
     ,
@@ -72,7 +117,15 @@ const Question: FunctionComponent<QuestionProps> = ({
   correctAnswer,
   countDown
 }) => {
-  const classes = useStyles();
+  const theme = useTheme();
+
+  const matches = useMediaQuery(theme.breakpoints.up('md'));
+
+  console.log("MATCHES: ", matches)
+  const desktopClasses = useStylesDesktop() 
+  const mobileClasses = useStylesMobile()
+  const classes = matches ? desktopClasses : mobileClasses
+
   
 
   const answersList = options.map((answer) => {

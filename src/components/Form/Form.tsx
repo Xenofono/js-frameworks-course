@@ -7,18 +7,29 @@ import { FormControlLabel } from "@material-ui/core";
 import { Input } from "@material-ui/core";
 import { RadioGroup } from "@material-ui/core";
 import { Radio } from "@material-ui/core";
-import { Button } from "@material-ui/core";
+import { Button, useMediaQuery } from "@material-ui/core";
 
 import { useHistory } from "react-router-dom";
 
 import { fetchQuiz } from "../../store/actions/quizActions";
 import { connect } from "react-redux";
 import GameDetailsModel from "../../models/GameDetailsModel";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+import { createStyles, Theme, makeStyles, useTheme } from "@material-ui/core/styles";
 
-const useStyles = makeStyles((theme: Theme) => ({
-  elementMargin: {
+const useStylesDesktop = makeStyles((theme: Theme) => ({
+  root:{
+  }
+}))
+const useStylesMobile = makeStyles((theme: Theme) => ({
+  root:{
+    width: '100%'
+  },
+  
+}))
+const useStylesCommon = makeStyles((theme: Theme) => ({
+  inputRoot:{
     marginTop: '2rem'
+
   }
 }))
 
@@ -30,7 +41,19 @@ const Form: FunctionComponent<FormProps> = ({ fetchQuiz }) => {
   const [questions, setQuestions] = useState<number>(8);
   const [diffValue, setDiffValue] = useState("medium");
 
-  const classes = useStyles();
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up('md'));
+
+  const classesDesktop = useStylesDesktop();
+  const classesMobile = useStylesMobile();
+  const classesCommon = useStylesCommon();
+  const responsiveChoiceOfClasses = matches ? classesDesktop : classesMobile
+  const classes = {...responsiveChoiceOfClasses, ...classesCommon}
+  
+  
+
+
+
 
   const history = useHistory();
   const handleClick = () => {
@@ -40,7 +63,7 @@ const Form: FunctionComponent<FormProps> = ({ fetchQuiz }) => {
   };
 
   return (
-    <FormControl margin="normal" variant="outlined">
+    <FormControl margin="normal" variant="outlined" classes={{root: classes.root}}>
       <FormLabel color="secondary" htmlFor="input">Antal Frågor: </FormLabel>
       <Input
         id="input"
@@ -51,7 +74,7 @@ const Form: FunctionComponent<FormProps> = ({ fetchQuiz }) => {
         required
         autoFocus
         onChange={(e) => setQuestions(+e.target.value)}></Input>
-      <FormLabel color="secondary" htmlFor="radio" className={classes.elementMargin}>Svårighetsgrad</FormLabel>
+      <FormLabel color="secondary" htmlFor="radio" classes={{root:classes.inputRoot}}>Svårighetsgrad</FormLabel>
       <RadioGroup
         id="radio"
         aria-label="difficulty"
@@ -67,7 +90,8 @@ const Form: FunctionComponent<FormProps> = ({ fetchQuiz }) => {
         size="large"
         variant="contained"
         color="secondary"
-        onClick={handleClick}>
+        onClick={handleClick}
+        classes={{root:classes.inputRoot}}>
         Börja
       </Button>
     </FormControl>
