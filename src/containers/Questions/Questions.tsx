@@ -31,16 +31,19 @@ const Questions: FunctionComponent<QuestionsProps> = ({
       if (answer === currentQuestion.correctAnswer) {
         increaseScore();
       }
+      const nextIndex = questionIndex + 1;
+
       setTimeout(() => {
-        const nextIndex = questionIndex + 1;
         if (nextIndex < questions.length) {
-          setQuestionIndex(questionIndex + 1);
+            setQuestionIndex(questionIndex + 1);
+            setClicked(true);
+          
         } else {
           quizEnded();
           history.push("/score");
         }
-        setClicked(true);
       }, 1500);
+
 
   };
 

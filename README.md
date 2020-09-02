@@ -71,7 +71,7 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 //data table - klar
 //ändra cursor -klar 
 //går att spamma för att ändra färger fram och tillbaka -klar
-//extra poäng om du snabbklickar
+//extra poäng om du snabbklickar -klar
 // på sista Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
 
 //ändra mobillayout i landscape
