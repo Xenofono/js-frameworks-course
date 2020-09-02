@@ -9,15 +9,21 @@ const initialState = {
   quizEnded: false,
 };
 
+const formatHelper = (input: string): string => {
+  const txt = document.createElement("textarea");
+  txt.innerHTML = input;
+  return txt.value;
+}
+
 //convert api data to my own model
 const formatQuestions = (questions: RawQuestionModel[]): QuestionModel[] => {
 
   questions.forEach((rawQuestion: RawQuestionModel) => {
-    const txt = document.createElement("textarea");
-    txt.innerHTML = rawQuestion.question;
-    rawQuestion.question = txt.value;
+    rawQuestion.question = formatHelper(rawQuestion.question);
+    rawQuestion.incorrect_answers.map(q => formatHelper(q))
+    rawQuestion.correct_answer = formatHelper(rawQuestion.correct_answer)
   });
-
+  
   return questions.map((rawQuestion: RawQuestionModel) => {
     return new QuestionModel(
       rawQuestion.category,
