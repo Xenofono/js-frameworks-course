@@ -1,6 +1,8 @@
 import React, { FunctionComponent, MouseEvent, useState } from "react";
 import { List, ListItem, ListItemText, Divider } from "@material-ui/core";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+import { Typography } from "@material-ui/core";
+
 
 type QuestionProps = {
   category: string;
@@ -13,16 +15,27 @@ type QuestionProps = {
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
-      width: "100%",
-      backgroundColor: theme.palette.background.paper,
+    root:{
+      width:'90%',
+      margin: 'auto'
+    },
+    list:{
+      width:'50%',
+      margin: 'auto'
     },
     correct: {
-      backgroundColor: "green",
+      backgroundColor: "#2ECC40",
+      '&$disabled': {
+        opacity: 1
+      }
     },
     incorrect: {
-      backgroundColor: "red",
+      backgroundColor: "#FF4136",
+      '&$disabled': {
+        opacity: 1
+      }
     },
+    disabled: {}
   })
 );
 
@@ -51,7 +64,8 @@ const Question: FunctionComponent<QuestionProps> = ({
         button
         className={
           answer === correctAnswer ? classes.correct : classes.incorrect
-        }>
+        }
+        classes={{disabled: classes.disabled}}>
         <ListItemText primary={answer} />
       </ListItem>
     );
@@ -59,9 +73,9 @@ const Question: FunctionComponent<QuestionProps> = ({
 
   return (
     <div className={classes.root}>
-      <h3>{category}</h3>
-      <h4>{question}</h4>
-      <List component="nav" aria-label="">
+      <Typography variant="h2">{category}</Typography>
+      <Typography variant="h4">{question}</Typography>
+      <List component="nav" aria-label="" className={classes.list}>
         {answersList}
       </List>
     </div>
