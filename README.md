@@ -66,3 +66,13 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/de
 ### `npm run build` fails to minify
 
 This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+
+//ta bort onödigt - klar
+//data table - klar
+//ändra cursor 
+//går att spamma för att ändra färger fram och tillbaka
+//extra poäng om du snabbklickar
+// på sista Can't perform a React state update on an unmounted component. This is a no-op, but it indicates a memory leak in your application. To fix, cancel all subscriptions and asynchronous tasks in a useEffect cleanup function.
+
+//ändra mobillayout i landscape
+//disable zoom

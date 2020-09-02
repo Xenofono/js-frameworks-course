@@ -6,18 +6,18 @@ const initialState = {
   currentQuiz: null,
   loading: false,
   score: 0,
-  quizEnded: false
+  quizEnded: false,
 };
 
 //convert api data to my own model
 const formatQuestions = (questions: RawQuestionModel[]): QuestionModel[] => {
-  questions.forEach((question: RawQuestionModel) => {
-    question.question = question.question
-      .replace(/&quot;/g, '"')
-      .replace(/&#039;/g || /&rsquo;/g, "'")
-      .replace(/&pi;/g, "pi")
-      .replace(/&amp;/g, "&");
+
+  questions.forEach((rawQuestion: RawQuestionModel) => {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = rawQuestion.question;
+    rawQuestion.question = txt.value;
   });
+
   return questions.map((rawQuestion: RawQuestionModel) => {
     return new QuestionModel(
       rawQuestion.category,
@@ -47,17 +47,17 @@ const reducer = (state = initialState, action: ActionModel) => {
         loading: false,
       };
 
-      case Actions.QUIZ_SCORE_INCREASE:
-        return {
-          ...state,
-          score: state.score+1
-        }
+    case Actions.QUIZ_SCORE_INCREASE:
+      return {
+        ...state,
+        score: state.score + 1,
+      };
 
-        case Actions.QUIZ_ENDED:
-        return {
-          ...state,
-          quizEnded: true
-        }
+    case Actions.QUIZ_ENDED:
+      return {
+        ...state,
+        quizEnded: true,
+      };
     default:
       return state;
   }
