@@ -21,12 +21,30 @@ const Questions: FunctionComponent<QuestionsProps> = ({
   quizEnded,
 }) => {
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [clicked, setClicked] = useState(true);
+  const [gameActive, setgameActive] = useState(true);
+  const [countDown, setCountDown] = useState<number>(10)
+
   const history = useHistory();
+
+  useEffect(() => {
+    if(gameActive){
+      if(countDown > 0){
+        const interval = setInterval(() => {
+          setCountDown((oldState) => oldState-1)
+        }, 1000);
+        return () => clearInterval(interval)
+      }
+      else {
+        goToNextQuestion("")
+      }
+    }
+
+
+  })
 
   //setTimeout is so correct and wrong answers are displayed 1500 ms before next question
   const goToNextQuestion = (answer: string) => {
-    setClicked(false);
+    setgameActive(false);
       const currentQuestion = questions[questionIndex];
       if (answer === currentQuestion.correctAnswer) {
         increaseScore();
@@ -35,8 +53,12 @@ const Questions: FunctionComponent<QuestionsProps> = ({
 
       setTimeout(() => {
         if (nextIndex < questions.length) {
+          setCountDown(() => {
             setQuestionIndex(questionIndex + 1);
-            setClicked(true);
+            setgameActive(true);
+            return 10
+          })
+            
           
         } else {
           quizEnded();
@@ -51,10 +73,9 @@ const Questions: FunctionComponent<QuestionsProps> = ({
     history.replace("/");
   }
 
-  let toShow = <CircularProgress></CircularProgress>;
+  let toShow = <CircularProgress color="secondary"></CircularProgress>;
   if (!loading && questions) {
     const nextQuestion = questions[questionIndex];
-    console.log("QUESTIONSSSS: ", nextQuestion);
     toShow = (
       <Question
         category={nextQuestion.category}
@@ -62,7 +83,8 @@ const Questions: FunctionComponent<QuestionsProps> = ({
         options={nextQuestion.options}
         goToNextQuestion={goToNextQuestion}
         correctAnswer={nextQuestion.correctAnswer}
-        clicked={clicked}></Question>
+        gameActive={gameActive}
+        countDown={countDown}></Question>
     );
   }
 
