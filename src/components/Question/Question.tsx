@@ -46,6 +46,7 @@ const Question: FunctionComponent<QuestionProps> = ({
         key={answer}
         onClick={(e: MouseEvent) => handleClick(answer)}
         divider
+        disabled={!clicked}
         selected={clicked}
         button
         className={

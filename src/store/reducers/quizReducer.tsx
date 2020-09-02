@@ -20,10 +20,10 @@ const formatQuestions = (questions: RawQuestionModel[]): QuestionModel[] => {
 
   questions.forEach((rawQuestion: RawQuestionModel) => {
     rawQuestion.question = formatHelper(rawQuestion.question);
-    rawQuestion.incorrect_answers.map(q => formatHelper(q))
+    rawQuestion.incorrect_answers = rawQuestion.incorrect_answers.map(q => formatHelper(q))
     rawQuestion.correct_answer = formatHelper(rawQuestion.correct_answer)
   });
-  
+
   return questions.map((rawQuestion: RawQuestionModel) => {
     return new QuestionModel(
       rawQuestion.category,

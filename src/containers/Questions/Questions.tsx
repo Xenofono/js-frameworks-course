@@ -22,14 +22,11 @@ const Questions: FunctionComponent<QuestionsProps> = ({
 }) => {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [clicked, setClicked] = useState(true);
-  const [changingToNextQuestion, setChaningToNextQuestion] = useState(false)
   const history = useHistory();
 
   //setTimeout is so correct and wrong answers are displayed 1500 ms before next question
   const goToNextQuestion = (answer: string) => {
     setClicked(false);
-    if(!changingToNextQuestion){
-      setChaningToNextQuestion(true)
       const currentQuestion = questions[questionIndex];
       if (answer === currentQuestion.correctAnswer) {
         increaseScore();
@@ -43,9 +40,7 @@ const Questions: FunctionComponent<QuestionsProps> = ({
           history.push("/score");
         }
         setClicked(true);
-        setChaningToNextQuestion(false)
       }, 1500);
-    }
 
   };
 
