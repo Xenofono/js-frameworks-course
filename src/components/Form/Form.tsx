@@ -14,6 +14,13 @@ import { useHistory } from "react-router-dom";
 import { fetchQuiz } from "../../store/actions/quizActions";
 import { connect } from "react-redux";
 import GameDetailsModel from "../../models/GameDetailsModel";
+import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme: Theme) => ({
+  elementMargin: {
+    marginTop: '2rem'
+  }
+}))
 
 interface FormProps {
   fetchQuiz: Function;
@@ -22,6 +29,8 @@ interface FormProps {
 const Form: FunctionComponent<FormProps> = ({ fetchQuiz }) => {
   const [questions, setQuestions] = useState<number>(8);
   const [diffValue, setDiffValue] = useState("medium");
+
+  const classes = useStyles();
 
   const history = useHistory();
   const handleClick = () => {
@@ -32,20 +41,22 @@ const Form: FunctionComponent<FormProps> = ({ fetchQuiz }) => {
 
   return (
     <FormControl margin="normal" variant="outlined">
-      <FormLabel htmlFor="input">Antal Frågor: </FormLabel>
+      <FormLabel color="secondary" htmlFor="input">Antal Frågor: </FormLabel>
       <Input
         id="input"
         type="number"
         placeholder="8"
         value={questions === 0 ? "" : questions}
+        color="secondary"
         required
         autoFocus
         onChange={(e) => setQuestions(+e.target.value)}></Input>
-      <FormLabel htmlFor="radio">Svårighetsgrad</FormLabel>
+      <FormLabel color="secondary" htmlFor="radio" className={classes.elementMargin}>Svårighetsgrad</FormLabel>
       <RadioGroup
         id="radio"
         aria-label="difficulty"
         name="difficulty"
+        
         value={diffValue}
         onChange={(e) => setDiffValue(e.target.value)}>
         <FormControlLabel value="easy" control={<Radio />} label="Lätt" />
@@ -55,7 +66,7 @@ const Form: FunctionComponent<FormProps> = ({ fetchQuiz }) => {
       <Button
         size="large"
         variant="contained"
-        color="primary"
+        color="secondary"
         onClick={handleClick}>
         Börja
       </Button>
