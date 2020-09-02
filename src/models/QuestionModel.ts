@@ -1,8 +1,8 @@
 export default class Question {
-  category: string;
-  question: string;
-  options: string[];
-  correctAnswer: string;
+  readonly category: string;
+  readonly question: string;
+  readonly options: string[];
+  readonly correctAnswer: string;
 
   constructor(
     category: string,
