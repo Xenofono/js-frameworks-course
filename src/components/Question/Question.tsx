@@ -47,6 +47,7 @@ const Question: FunctionComponent<QuestionProps> = ({
         onClick={(e: MouseEvent) => handleClick(answer)}
         divider
         selected={clicked}
+        button
         className={
           answer === correctAnswer ? classes.correct : classes.incorrect
         }>
