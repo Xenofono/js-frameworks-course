@@ -2,6 +2,7 @@ import Actions, { ActionModel } from "./actionTypes";
 import quizFetch from "../../fetch";
 import GameDetailsModel from "../../models/GameDetailsModel";
 import RawQuestionModel from "../../models/RawQuestionModel";
+import AnswerModel from "../../models/AnswerModel";
 
 const fetchQuizStart = () => ({
   type: Actions.QUIZ_FETCH_START,
@@ -33,4 +34,9 @@ export const increaseScore = () => ({
 
 export const quizEnded = () => ({
     type: Actions.QUIZ_ENDED
+})
+
+export const logAnswer = (answer: AnswerModel) => ({
+  type: Actions.QUIZ_ANSWER_LOG,
+  payload: answer
 })

@@ -1,12 +1,22 @@
 import Actions, { ActionModel } from "../actions/actionTypes";
 import RawQuestionModel from "../../models/RawQuestionModel";
 import QuestionModel from "../../models/QuestionModel";
+import AnswerModel from "../../models/AnswerModel";
 
-const initialState = {
+interface InitalState {
+  currentQuiz: QuestionModel[] | null,
+  loading: boolean,
+  score: number,
+  quizEnded: boolean,
+  answers: AnswerModel[]
+}
+
+const initialState : InitalState = {
   currentQuiz: null,
   loading: false,
   score: 0,
   quizEnded: false,
+  answers: []
 };
 
 const formatHelper = (input: string): string => {
@@ -64,6 +74,12 @@ const reducer = (state = initialState, action: ActionModel) => {
         ...state,
         quizEnded: true,
       };
+
+      case Actions.QUIZ_ANSWER_LOG:
+        return {
+          ...state,
+          answers: state.answers.concat(action.payload)
+        }
     default:
       return state;
   }

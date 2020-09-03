@@ -4,7 +4,9 @@ enum Actions{
     QUIZ_FETCH_ERROR = "QUIZ_FETCH_ERROR",
 
     QUIZ_SCORE_INCREASE = "QUIZ_SCORE_INCREASE",
-    QUIZ_ENDED = "QUIZ_ENDED"
+    QUIZ_ENDED = "QUIZ_ENDED",
+
+    QUIZ_ANSWER_LOG = "QUIZ_ANSWER_LOG"
 }
 
 export interface ActionModel{

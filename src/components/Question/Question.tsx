@@ -1,11 +1,15 @@
 import React, { FunctionComponent, MouseEvent } from "react";
-import { List, ListItem, ListItemText, ListItemIcon, Container } from "@material-ui/core";
-import { createStyles, Theme, makeStyles, useTheme } from "@material-ui/core/styles";
+import { List, ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
+import { useTheme } from "@material-ui/core/styles";
 import { Typography, useMediaQuery } from "@material-ui/core";
+import {
+  classesCommon,
+  classesMobile,
+  classesLandscape,
+} from "./QuestionStyles";
 
-import CheckIcon from '@material-ui/icons/Check';
-import CloseIcon from '@material-ui/icons/Close';
-
+import CheckIcon from "@material-ui/icons/Check";
+import CloseIcon from "@material-ui/icons/Close";
 
 type QuestionProps = {
   category: string;
@@ -17,97 +21,6 @@ type QuestionProps = {
   countDown: number;
 };
 
-const useStylesDesktop = makeStyles((theme: Theme) =>
-  createStyles({
-    root:{
-      width:'90%',
-      margin: 'auto'
-    },
-    list:{
-      width:'50%',
-      margin: 'auto'
-    }
-    ,
-    itemRoot: {
-      '&$disabled': {
-        opacity: 1
-      },
-      '&:hover' :{
-        backgroundColor : '#eee !important'
-      }
-    },
-    correct: {
-      backgroundColor: "#2ECC40",
-  
-    },
-    incorrect: {
-      backgroundColor: "#FF4136",
-  
-    },
-    listItemIconHidden:{
-      display: 'none'
-    },
-    listItemIconShow:{
-      display: 'block'
-    }
-    ,
-    iconCorrect:{
-      color: "#2ECC40"
-    },
-    iconIncorrect:{
-      color: "#FF4136"
-    },
-    disabled: {}
-    
-  })
-);
-
-const useStylesMobile = makeStyles((theme: Theme) =>
-  createStyles({
-    root:{
-      width:'90%',
-      margin: 'auto'
-    },
-    list:{
-      width:'100%',
-      margin: 'auto'
-    }
-    ,
-    itemRoot: {
-      '&$disabled': {
-        opacity: 1
-      },
-      '&:hover' :{
-        backgroundColor : '#eee !important'
-      }
-    },
-    correct: {
-      backgroundColor: "#2ECC40",
-  
-    },
-    incorrect: {
-      backgroundColor: "#FF4136",
-  
-    },
-    listItemIconHidden:{
-      display: 'none'
-    },
-    listItemIconShow:{
-      display: 'block'
-    }
-    ,
-    iconCorrect:{
-      color: "#2ECC40"
-    },
-    iconIncorrect:{
-      color: "#FF4136"
-    },
-    disabled: {}
-    
-  })
-);
-
-
 const Question: FunctionComponent<QuestionProps> = ({
   category,
   question,
@@ -115,18 +28,24 @@ const Question: FunctionComponent<QuestionProps> = ({
   goToNextQuestion,
   gameActive,
   correctAnswer,
-  countDown
+  countDown,
 }) => {
   const theme = useTheme();
 
-  const matches = useMediaQuery(theme.breakpoints.up('md'));
+  //checks if screen is larger than md which is 960px
+  const matches = useMediaQuery(theme.breakpoints.up("md"));
+  const commonClasses = classesCommon();
+  const mobileClasses = classesMobile();
+  const mobileClassesLandscape = classesLandscape();
+  let classes = commonClasses;
+  if (!matches) {
+    classes = { ...commonClasses, ...mobileClasses };
+  }
 
-  console.log("MATCHES: ", matches)
-  const desktopClasses = useStylesDesktop() 
-  const mobileClasses = useStylesMobile()
-  const classes = matches ? desktopClasses : mobileClasses
-
-  
+  //checks if window is in landscape mode, if yes then applies landscape css
+  if (window.matchMedia("(orientation: landscape)").matches && !matches) {
+    classes = { ...classes, ...mobileClassesLandscape };
+  }
 
   const answersList = options.map((answer) => {
     return (
@@ -139,14 +58,20 @@ const Question: FunctionComponent<QuestionProps> = ({
         button
         classes={{
           root: classes.itemRoot,
-          disabled: classes.disabled // class name, e.g. `root-x`
-        }}
-        >
+          disabled: classes.disabled, // class name, e.g. `root-x`
+        }}>
         <ListItemText primary={answer} />
-        <ListItemIcon classes={{root: gameActive ? classes.listItemIconHidden : classes.listItemIconShow}}> 
-        {answer === correctAnswer ?
-         <CheckIcon classes={{root:classes.iconCorrect}}></CheckIcon> :
-          <CloseIcon classes={{root:classes.iconIncorrect}}/>}
+        <ListItemIcon
+          classes={{
+            root: gameActive
+              ? classes.listItemIconHidden
+              : classes.listItemIconShow,
+          }}>
+          {answer === correctAnswer ? (
+            <CheckIcon classes={{ root: classes.iconCorrect }}></CheckIcon>
+          ) : (
+            <CloseIcon classes={{ root: classes.iconIncorrect }} />
+          )}
         </ListItemIcon>
       </ListItem>
     );
@@ -154,12 +79,16 @@ const Question: FunctionComponent<QuestionProps> = ({
 
   return (
     <div className={classes.root}>
-      <Typography variant="h2">{category}</Typography>
-      <Typography variant="h4">{question}</Typography>
-      <List component="nav" aria-label="" className={classes.list}>
-        {answersList}
-      </List>
-      <p>Tid kvar: {countDown}</p>
+      <div className={classes.innerDiv}>
+        <Typography variant="h3">{category}</Typography>
+        <Typography variant="h5">{question}</Typography>
+      </div>
+      <div className={classes.innerDiv}>
+        <List component="nav" aria-label="" className={classes.list}>
+          {answersList}
+        </List>
+        <p>Tid kvar: {countDown}</p>
+      </div>
     </div>
   );
 };
