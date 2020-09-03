@@ -8,7 +8,8 @@ interface InitalState {
   loading: boolean,
   score: number,
   quizEnded: boolean,
-  answers: AnswerModel[]
+  answers: AnswerModel[],
+  error: Error | null
 }
 
 const initialState : InitalState = {
@@ -16,7 +17,8 @@ const initialState : InitalState = {
   loading: false,
   score: 0,
   quizEnded: false,
-  answers: []
+  answers: [],
+  error: null
 };
 
 const formatHelper = (input: string): string => {
@@ -61,6 +63,7 @@ const reducer = (state = initialState, action: ActionModel) => {
       return {
         ...state,
         loading: false,
+        error: action.payload
       };
 
     case Actions.QUIZ_SCORE_INCREASE:
