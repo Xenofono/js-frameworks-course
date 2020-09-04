@@ -7,7 +7,7 @@ import AnswersModel from '../../models/AnswerModel'
 import CheckIcon from '@material-ui/icons/Check';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { createStyles, Theme, makeStyles, useTheme } from "@material-ui/core/styles";
+import { Theme, makeStyles } from "@material-ui/core/styles";
 
 const styles = makeStyles((theme:Theme) => ({
     correct:{

@@ -12,7 +12,7 @@ enum Actions{
 
 export interface ActionModel{
     type: Actions,
-    payload: any
+    payload?: any
 }
 
 export default Actions

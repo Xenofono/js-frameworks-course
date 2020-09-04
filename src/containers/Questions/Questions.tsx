@@ -11,7 +11,7 @@ import {
 
 import QuestionModel from "../../models/QuestionModel";
 import AnswerModel from "../../models/AnswerModel";
-import {withErrorHandler} from '../../components/ErrorHandler/withErrorHandler'
+import { withErrorHandler } from "../../components/ErrorHandler/withErrorHandler";
 
 export interface QuestionsProps {
   questions: QuestionModel[];
@@ -19,7 +19,7 @@ export interface QuestionsProps {
   increaseScore: Function;
   quizEnded: Function;
   logAnswer: Function;
-  error: string | null
+  error: string | null;
 }
 
 const Questions: FunctionComponent<QuestionsProps> = ({
@@ -28,7 +28,7 @@ const Questions: FunctionComponent<QuestionsProps> = ({
   increaseScore,
   quizEnded,
   logAnswer,
-  error
+  error,
 }) => {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [gameActive, setgameActive] = useState(true);
@@ -37,18 +37,18 @@ const Questions: FunctionComponent<QuestionsProps> = ({
   const history = useHistory();
 
   useEffect(() => {
-    //creates an interval to reduce countDown
-    if (gameActive && countDown > 0) {
+    if (!error) {
+      //creates an interval to reduce countDown
+      if (gameActive && countDown > 0) {
         const interval = setInterval(() => {
           setCountDown((oldState) => oldState - 1);
         }, 1000);
         return () => clearInterval(interval);
-      
-    }
-    //if game is active and coundown 0 or lower than force the game to next question
-    else if (gameActive && countDown <= 0){
-      goToNextQuestion("");
-
+      }
+      //if game is active and coundown 0 or lower than force the game to next question
+      else if (gameActive && countDown <= 0) {
+        goToNextQuestion("");
+      }
     }
   });
 
@@ -78,18 +78,19 @@ const Questions: FunctionComponent<QuestionsProps> = ({
     }, 1500);
   };
 
-
   //if API isn't loading and there are no questions then redirect to root
   /*
-  */
+   */
   const pushToRoot = !loading && !questions && !error;
   if (pushToRoot) {
     history.replace("/");
   }
 
-  let toShow = error ?
-  <p>Kan inte ladda frågor</p> :
-   <CircularProgress color="secondary"></CircularProgress>;
+  let toShow = error ? (
+    <p>Kan inte ladda frågor</p>
+  ) : (
+    <CircularProgress color="secondary"></CircularProgress>
+  );
 
   if (!loading && questions) {
     const nextQuestion = questions[questionIndex];
@@ -117,7 +118,10 @@ const mapDispatchToProps = (dispatch: any) => ({
 const mapStateToProps = (state: any) => ({
   questions: state.currentQuiz,
   loading: state.loading,
-  error: state.error
+  error: state.error,
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Questions));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withErrorHandler(Questions));

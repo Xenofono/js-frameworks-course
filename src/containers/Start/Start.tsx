@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from "react";
 import Form from "../../components/Form/Form";
 import { Typography } from "@material-ui/core";
-import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 
 interface StartProps {}
 
-const useStyles = makeStyles((theme) =>
+const useStyles = makeStyles(() =>
   createStyles({
     title: {
       color:"#f50057"

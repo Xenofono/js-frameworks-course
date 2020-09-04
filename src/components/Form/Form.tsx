@@ -1,13 +1,15 @@
 import React, { FunctionComponent, useState } from "react";
-import css from "./Form.module.css";
 
-import { FormControl } from "@material-ui/core";
-import { FormLabel } from "@material-ui/core";
-import { FormControlLabel } from "@material-ui/core";
-import { Input } from "@material-ui/core";
-import { RadioGroup } from "@material-ui/core";
-import { Radio } from "@material-ui/core";
-import { Button, useMediaQuery } from "@material-ui/core";
+import {
+  FormControl,
+  FormLabel,
+  FormControlLabel,
+  Input,
+  RadioGroup,
+  Radio,
+  Button,
+  useMediaQuery,
+} from "@material-ui/core";
 
 import { useHistory } from "react-router-dom";
 
@@ -16,8 +18,6 @@ import { connect } from "react-redux";
 import GameDetailsModel from "../../models/GameDetailsModel";
 import { useTheme } from "@material-ui/core/styles";
 import { classesCommon, classesMobile } from "./FormStyles";
-
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 
 interface FormProps {
   fetchQuiz: Function;

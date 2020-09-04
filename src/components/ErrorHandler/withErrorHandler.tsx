@@ -3,12 +3,7 @@ import { Backdrop } from "@material-ui/core";
 import { connect } from "react-redux";
 import { useHistory } from "react-router-dom";
 
-import {
-  createStyles,
-  Theme,
-  makeStyles,
-  useTheme,
-} from "@material-ui/core/styles";
+import { createStyles, makeStyles } from "@material-ui/core/styles";
 import { fetchQuizErrorConfirm } from "../../store/actions/quizActions";
 
 const useStyles = makeStyles((theme) =>
@@ -36,24 +31,25 @@ export const withErrorHandler = (Component: any) => {
         props.removeError();
         return false;
       });
-      history.replace("/")
+      history.replace("/");
     };
     const classes = useStyles();
 
     if (props.error && !show) {
-      console.log("finns error, witherrorhandler")
       setShow(true);
     }
 
-    return <React.Fragment>
-      <Backdrop
+    return (
+      <React.Fragment>
+        <Backdrop
           open={show}
           className={classes.backdrop}
           onClick={confirmError}>
-            <p>Kan inte ladda frågorna, kolla din internetuppkoppling</p>
-          </Backdrop>
-          <Component {...props}></Component>
-    </React.Fragment>;
+          <p>Kan inte ladda frågorna, kolla din internetuppkoppling</p>
+        </Backdrop>
+        <Component {...props}></Component>
+      </React.Fragment>
+    );
   };
 
   const mapDispatchToProps = (dispatch: any) => ({

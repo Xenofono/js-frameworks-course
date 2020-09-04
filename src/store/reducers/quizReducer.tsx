@@ -1,10 +1,10 @@
 import Actions, { ActionModel } from "../actions/actionTypes";
 import RawQuestionModel from "../../models/RawQuestionModel";
-import QuestionModel from "../../models/QuestionModel";
+import Question from "../../models/QuestionModel";
 import AnswerModel from "../../models/AnswerModel";
 
 interface InitalState {
-  currentQuiz: QuestionModel[] | null,
+  currentQuiz: Question[] | null,
   loading: boolean,
   score: number,
   quizEnded: boolean,
@@ -21,29 +21,10 @@ const initialState : InitalState = {
   error: null
 };
 
-const formatHelper = (input: string): string => {
-  const txt = document.createElement("textarea");
-  txt.innerHTML = input;
-  return txt.value;
-}
 
 //convert api data to my own model
-const formatQuestions = (questions: RawQuestionModel[]): QuestionModel[] => {
-
-  questions.forEach((rawQuestion: RawQuestionModel) => {
-    rawQuestion.question = formatHelper(rawQuestion.question);
-    rawQuestion.incorrect_answers = rawQuestion.incorrect_answers.map(q => formatHelper(q))
-    rawQuestion.correct_answer = formatHelper(rawQuestion.correct_answer)
-  });
-
-  return questions.map((rawQuestion: RawQuestionModel) => {
-    return new QuestionModel(
-      rawQuestion.category,
-      rawQuestion.question,
-      rawQuestion.correct_answer,
-      rawQuestion.incorrect_answers
-    );
-  });
+const formatQuestions = (questions: RawQuestionModel[]): Question[] => {
+  return questions.map(question => new Question(question))
 };
 
 const reducer = (state = initialState, action: ActionModel) => {

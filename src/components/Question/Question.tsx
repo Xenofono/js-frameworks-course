@@ -1,7 +1,6 @@
 import React, { FunctionComponent, MouseEvent } from "react";
-import { List, ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
+import { List, ListItem, ListItemText, ListItemIcon, Typography, useMediaQuery } from "@material-ui/core";
 import { useTheme } from "@material-ui/core/styles";
-import { Typography, useMediaQuery } from "@material-ui/core";
 import {
   classesCommon,
   classesMobile,
