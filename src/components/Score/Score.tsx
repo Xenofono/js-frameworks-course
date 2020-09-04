@@ -34,7 +34,7 @@ const Score:FunctionComponent<ScoreProps> = ({score, quizEnded, answers}) => {
         history.push("/")
     }
     const displayAnswers = answers.map(answer => {
-        return <ListItem divider>
+        return <ListItem divider key={answer.question}>
             <ListItemText>{answer.question}: 
             <ListItemIcon>
             {answer.correct ?

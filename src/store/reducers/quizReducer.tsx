@@ -9,7 +9,7 @@ interface InitalState {
   score: number,
   quizEnded: boolean,
   answers: AnswerModel[],
-  error: Error | null
+  error: string | null
 }
 
 const initialState : InitalState = {
@@ -63,8 +63,14 @@ const reducer = (state = initialState, action: ActionModel) => {
       return {
         ...state,
         loading: false,
-        error: action.payload
+        error: "Kunde inte hämta frågorna, kolla din internetuppkoppling"
       };
+
+      case Actions.QUIZ_FETCH_ERROR_CONFIRM:
+        return{
+        ...state,
+        error: null
+      }
 
     case Actions.QUIZ_SCORE_INCREASE:
       return {

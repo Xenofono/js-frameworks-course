@@ -8,9 +8,12 @@ const fetchQuizStart = () => ({
   type: Actions.QUIZ_FETCH_START,
 });
 
-const fetchQuizError = (error: Error): ActionModel => ({
-  type: Actions.QUIZ_FETCH_START,
-  payload: error,
+const fetchQuizError = () => ({
+  type: Actions.QUIZ_FETCH_ERROR,
+});
+
+export const fetchQuizErrorConfirm = () => ({
+  type: Actions.QUIZ_FETCH_ERROR_CONFIRM,
 });
 
 const fetchQuizDone = (quizArray: RawQuestionModel[]) => ({
@@ -24,7 +27,7 @@ export const fetchQuiz = (gameDetails: GameDetailsModel) => {
 
     quizFetch<RawQuestionModel[]>(gameDetails)
       .then((data) => dispatch(fetchQuizDone(data.results)))
-      .catch((err) => dispatch(fetchQuizError(err)));
+      .catch((err) => dispatch(fetchQuizError()));
   };
 };
 

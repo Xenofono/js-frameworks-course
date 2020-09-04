@@ -31,22 +31,13 @@ function App(props) {
   const classes = useStyles();
   const confirmError = () => setShow(false);
 
-  if (props.error) {
+  if (props.error && !show) {
     setShow(true);
   }
 
   return (
     <div className={css.App}>
       <div className={css.AppHeader}>
-        <Backdrop
-          className={classes.backdrop}
-          open={show}
-          onClick={confirmError}>
-          <div>
-            <p>{props.error}</p>
-          </div>
-        </Backdrop>
-
         <Switch>
           <Route exact path="/" component={Start}></Route>
           <Route path="/quiz" component={Questions}></Route>

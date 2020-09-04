@@ -11,13 +11,15 @@ import {
 
 import QuestionModel from "../../models/QuestionModel";
 import AnswerModel from "../../models/AnswerModel";
+import {withErrorHandler} from '../../components/ErrorHandler/withErrorHandler'
 
-interface QuestionsProps {
+export interface QuestionsProps {
   questions: QuestionModel[];
   loading: boolean;
   increaseScore: Function;
   quizEnded: Function;
   logAnswer: Function;
+  error: string | null
 }
 
 const Questions: FunctionComponent<QuestionsProps> = ({
@@ -26,6 +28,7 @@ const Questions: FunctionComponent<QuestionsProps> = ({
   increaseScore,
   quizEnded,
   logAnswer,
+  error
 }) => {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [gameActive, setgameActive] = useState(true);
@@ -75,12 +78,19 @@ const Questions: FunctionComponent<QuestionsProps> = ({
     }, 1500);
   };
 
+
   //if API isn't loading and there are no questions then redirect to root
-  if (!loading && !questions) {
+  /*
+  */
+  const pushToRoot = !loading && !questions && !error;
+  if (pushToRoot) {
     history.replace("/");
   }
 
-  let toShow = <CircularProgress color="secondary"></CircularProgress>;
+  let toShow = error ?
+  <p>Kan inte ladda frågor</p> :
+   <CircularProgress color="secondary"></CircularProgress>;
+
   if (!loading && questions) {
     const nextQuestion = questions[questionIndex];
     toShow = (
@@ -107,6 +117,7 @@ const mapDispatchToProps = (dispatch: any) => ({
 const mapStateToProps = (state: any) => ({
   questions: state.currentQuiz,
   loading: state.loading,
+  error: state.error
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Questions);
+export default connect(mapStateToProps, mapDispatchToProps)(withErrorHandler(Questions));
